@@ -1,0 +1,47 @@
+---
+interface Props {
+  pros: string[];
+  cons: string[];
+}
+
+const { pros, cons } = Astro.props;
+---
+
+<div class="grid md:grid-cols-2 gap-6">
+  <div class="bg-green-50 dark:bg-green-950/30 rounded-xl border border-green-200 dark:border-green-900 p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="text-2xl">✓</span>
+      <h3 class="font-semibold text-lg text-green-800 dark:text-green-200">Pros</h3>
+    </div>
+    <ul class="space-y-3">
+      {pros.map(pro => (
+        <li class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mt-0.5 flex-shrink-0">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          <span class="text-green-800 dark:text-green-200">{pro}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="bg-red-50 dark:bg-red-950/30 rounded-xl border border-red-200 dark:border-red-900 p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="text-2xl">✗</span>
+      <h3 class="font-semibold text-lg text-red-800 dark:text-red-200">Cons</h3>
+    </div>
+    <ul class="space-y-3">
+      {cons.map(con => (
+        <li class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 mt-0.5 flex-shrink-0">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m15 9-6 6"></path>
+            <path d="m9 9 6 6"></path>
+          </svg>
+          <span class="text-red-800 dark:text-red-200">{con}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { AUTHORS, SITE_CONFIG } from '@/utils/helpers';
+---
+
+<BaseLayout
+  title="About Us"
+  description="Learn about TechPick's mission, our expert team, and how we test products to bring you honest reviews."
+>
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-16">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">About TechPick</h1>
+          <p class="text-xl text-muted-foreground">
+            Independent reviews you can trust
+          </p>
+        </header>
+
+        <div class="prose max-w-none mb-16">
+          <p class="text-lg leading-relaxed">
+            TechPick was founded with a simple mission: to provide honest, thorough, and independent product reviews that help consumers make smarter purchasing decisions. In a world saturated with sponsored content and biased recommendations, we believe there's a need for a trustworthy source of unbiased testing and analysis.
+          </p>
+          
+          <p>
+            Our team of experienced editors and product testers brings together decades of combined expertise in consumer electronics, smart home technology, audio equipment, and outdoor gear. We've tested hundreds of products across multiple categories, from budget-friendly essentials to premium flagship devices.
+          </p>
+
+          <h2>Our Testing Process</h2>
+          <p>
+            Every product we review goes through rigorous real-world testing. We don't just read specifications or rely on manufacturer claims—we use each product extensively in our daily lives and specific testing scenarios designed to push products to their limits.
+          </p>
+          
+          <p>Our evaluation criteria include:</p>
+          <ul>
+            <li><strong>Build Quality</strong> - Materials, construction, and durability</li>
+            <li><strong>Performance</strong> - How well does it actually work?</li>
+            <li><strong>Value</strong> - Does the price match the quality and features?</li>
+            <li><strong>Ease of Use</strong> - Setup, daily use, and user experience</li>
+            <li><strong>Long-term Reliability</strong> - How does it hold up over time?</li>
+          </ul>
+
+          <h2>Editorial Independence</h2>
+          <p>
+            Transparency is at the core of everything we do. While we earn revenue through affiliate partnerships with retailers and brands, this never influences our editorial decisions or review scores. Our editors have full control over what we cover and how we rate products.
+          </p>
+          
+          <p>
+            When you click on our affiliate links and make a purchase, we may earn a small commission at no extra cost to you. This is what allows us to continue doing what we love—testing products and helping our readers find the best gear for their needs.
+          </p>
+
+          <h2>The Team</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-16">
+          {AUTHORS.map(author => (
+            <div class="bg-card rounded-xl border p-6 text-center">
+              <img
+                src={author.image}
+                alt={author.name}
+                class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              />
+              <h3 class="font-semibold text-lg">{author.name}</h3>
+              <p class="text-primary font-medium text-sm mb-3">{author.role}</p>
+              <p class="text-sm text-muted-foreground">{author.bio}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="bg-muted/50 rounded-xl p-8 text-center">
+          <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
+          <p class="text-muted-foreground mb-6">
+            Have questions, feedback, or product suggestions? We'd love to hear from you.
+          </p>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            class="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            Email Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

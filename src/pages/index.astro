@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import FeaturedReviews from '@/components/home/FeaturedReviews.astro';
+import LatestPosts from '@/components/home/LatestPosts.astro';
+import CategoryNav from '@/components/home/CategoryNav.astro';
+---
+
+<BaseLayout
+  title="Independent Product Reviews & Buying Guides"
+  description="Thoroughly tested products, honest opinions, and expert buying guides to help you make smarter purchasing decisions in tech."
+>
+  <Hero />
+  <FeaturedReviews />
+  <LatestPosts />
+  <CategoryNav />
+</BaseLayout>

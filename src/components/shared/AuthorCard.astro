@@ -1,0 +1,50 @@
+---
+import { AUTHORS } from '@/utils/helpers';
+
+interface Props {
+  authorName: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { authorName, size = 'md' } = Astro.props;
+const author = AUTHORS.find(a => a.name === authorName) || AUTHORS[0];
+
+const sizeClasses = {
+  sm: 'w-12 h-12 text-sm',
+  md: 'w-16 h-16 text-base',
+  lg: 'w-24 h-24 text-lg',
+};
+---
+
+<div class:list={[
+  "flex items-center gap-4 p-6 bg-card rounded-xl border",
+  size === 'lg' && "flex-col text-center"
+]}>
+  <img
+    src={author.image}
+    alt={author.name}
+    class:list={[
+      "rounded-full object-cover",
+      sizeClasses[size]
+    ]}
+  />
+  <div>
+    <h4 class:list={[
+      "font-semibold",
+      size === 'sm' && 'text-sm'
+    ]}>
+      {author.name}
+    </h4>
+    <p class:list={[
+      "text-muted-foreground",
+      size === 'sm' ? 'text-xs' : 'text-sm'
+    ]}>
+      {author.role}
+    </p>
+    {size !== 'sm' && (
+      <p class="text-sm text-muted-foreground mt-2">
+        {author.bio}
+      </p>
+    )}
+  </div>
+</div>

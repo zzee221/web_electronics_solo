@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import ScoreCard from '@/components/review/ScoreCard.astro';
+import ProsConsTable from '@/components/review/ProsConsTable.astro';
+import AffiliateCTA from '@/components/review/AffiliateCTA.astro';
+import AuthorCard from '@/components/shared/AuthorCard.astro';
+import { formatDate, getRatingColor } from '@/utils/helpers';
+
+export async function getStaticPaths() {
+  const reviews = await getCollection('reviews');
+  return reviews.map(review => ({
+    params: { slug: review.slug },
+    props: { review },
+  }));
+}
+
+const { review } = Astro.props;
+const { Content, headings } = await render(review);
+const { title, description, productName, productBrand, productImage, productImageAlt, category, affiliateLink, rating, verdict, pros, cons, scores, specs, author, publishDate, updatedDate } = review.data;
+---
+
+<BaseLayout title={title} description={description} image={productImage} article={true}>
+  <article class="py-12">
+    <div class="container mx-auto px-4">
+      <header class="max-w-4xl mx-auto mb-12">
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+          <div>
+            <p class="text-lg text-primary font-medium mb-2">{productBrand}</p>
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">{productName}</h1>
+            <p class="text-xl text-muted-foreground mb-6">{verdict}</p>
+            
+            <div class="flex items-center gap-6">
+              <div class="text-center">
+                <div class={`text-5xl font-bold ${getRatingColor(rating)}`}>
+                  {rating.toFixed(1)}
+                </div>
+                <div class="text-sm text-muted-foreground">out of 10</div>
+              </div>
+              <div class="flex-1">
+                <div class="h-3 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    class={`h-full rounded-full ${getRatingColor(rating).replace('text-', 'bg-')}`}
+                    style={`width: ${(rating / 10) * 100}%`}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative">
+            <img
+              src={productImage}
+              alt={productImageAlt}
+              class="w-full rounded-xl shadow-lg"
+            />
+          </div>
+        </div>
+      </header>
+
+      <div class="max-w-4xl mx-auto">
+        <ScoreCard scores={scores} />
+        
+        <div class="my-8">
+          <ProsConsTable pros={pros} cons={cons} />
+        </div>
+
+        <div class="prose max-w-none my-8">
+          <Content />
+        </div>
+
+        <AffiliateCTA link={affiliateLink} productName={productName} brand={productBrand} />
+
+        <div class="mt-12 pt-8 border-t">
+          <h2 class="text-2xl font-bold mb-6">Product Specifications</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {Object.entries(specs).map(([key, value]) => (
+              <div class="p-4 bg-muted rounded-lg">
+                <dt class="text-sm text-muted-foreground capitalize">{key}</dt>
+                <dd class="font-medium mt-1">{value}</dd>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t">
+          <AuthorCard authorName={author} size="md" />
+        </div>
+
+        <div class="mt-8 text-sm text-muted-foreground">
+          <p>Published: {formatDate(publishDate)}</p>
+          {updatedDate && <p>Last updated: {formatDate(updatedDate)}</p>}
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

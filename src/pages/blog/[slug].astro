@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import TableOfContents from '@/components/blog/TableOfContents.astro';
+import CategoryBadge from '@/components/shared/CategoryBadge.astro';
+import AuthorCard from '@/components/shared/AuthorCard.astro';
+import { formatDate } from '@/utils/helpers';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const { title, description, coverImage, coverImageAlt, coverImageCredit, category, author, publishDate, updatedDate, readingTime, tags } = post.data;
+---
+
+<BaseLayout title={title} description={description} image={coverImage} article={true}>
+  <article class="py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <aside class="lg:col-span-1">
+          <div class="hidden lg:block">
+            <TableOfContents headings={headings} />
+          </div>
+        </aside>
+
+        <div class="lg:col-span-2">
+          <header class="mb-8">
+            <CategoryBadge category={category} />
+            <h1 class="text-3xl md:text-4xl font-bold mt-4 mb-6">{title}</h1>
+            
+            <div class="flex items-center gap-4 text-sm text-muted-foreground mb-6">
+              <span class="font-medium">{author}</span>
+              <span>·</span>
+              <time datetime={publishDate.toISOString()}>{formatDate(publishDate)}</time>
+              <span>·</span>
+              <span>{readingTime} min read</span>
+            </div>
+
+            <img
+              src={coverImage}
+              alt={coverImageAlt}
+              class="w-full aspect-video object-cover rounded-xl mb-4"
+            />
+            <p class="text-sm text-muted-foreground italic">{coverImageCredit}</p>
+          </header>
+
+          <div class="prose max-w-none">
+            <Content />
+          </div>
+
+          <footer class="mt-12 pt-8 border-t">
+            <div class="flex flex-wrap gap-2 mb-6">
+              {tags.map(tag => (
+                <span class="px-3 py-1 bg-muted rounded-full text-sm">{tag}</span>
+              ))}
+            </div>
+            <AuthorCard authorName={author} size="md" />
+          </footer>
+        </div>
+
+        <aside class="lg:col-span-1">
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

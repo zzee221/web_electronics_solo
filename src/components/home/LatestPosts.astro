@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import { formatDate } from '@/utils/helpers';
+import CategoryBadge from '@/components/shared/CategoryBadge.astro';
+
+const allPosts = await getCollection('posts');
+const latestPosts = allPosts
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 5);
+---
+
+<section class="py-16 bg-muted/30">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-3xl font-bold">Latest Articles</h2>
+        <p class="text-muted-foreground mt-2">Buying guides and expert insights</p>
+      </div>
+      <a href="/blog" class="text-primary hover:underline font-medium">
+        View All →
+      </a>
+    </div>
+
+    <div class="space-y-4">
+      {latestPosts.map((post, index) => (
+        <article class="group bg-card rounded-lg border p-6 hover:shadow-lg transition-all duration-300">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-shrink-0">
+              <img
+                src={post.data.coverImage}
+                alt={post.data.coverImageAlt}
+                class="w-full md:w-48 h-32 object-cover rounded-lg"
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-3 mb-3">
+                <CategoryBadge category={post.data.category} />
+                <span class="text-sm text-muted-foreground">
+                  {post.data.readingTime} min read
+                </span>
+              </div>
+
+              <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                <a href={`/blog/${post.slug}`}>
+                  {post.data.title}
+                </a>
+              </h3>
+
+              <p class="text-muted-foreground mb-4 line-clamp-2">
+                {post.data.description}
+              </p>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <span class="text-sm font-medium">{post.data.author}</span>
+                  <span class="text-muted-foreground">·</span>
+                  <time class="text-sm text-muted-foreground" datetime={post.data.publishDate.toISOString()}>
+                    {formatDate(post.data.publishDate)}
+                  </time>
+                </div>
+
+                <a href={`/blog/${post.slug}`} class="text-primary font-medium group-hover:underline">
+                  Read More →
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

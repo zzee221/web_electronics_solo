@@ -1,0 +1,104 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Input } from '@/components/shared/Input';
+import { Textarea } from '@/components/shared/Textarea';
+import { Button } from '@/components/shared/Button';
+import { SITE_CONFIG } from '@/utils/helpers';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Get in touch with the TechPick editorial team. We'd love to hear from you."
+>
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto">
+        <header class="text-center mb-12">
+          <h1 class="text-4xl font-bold mb-4">Contact Us</h1>
+          <p class="text-xl text-muted-foreground">
+            We'd love to hear from you
+          </p>
+        </header>
+
+        <div class="grid md:grid-cols-2 gap-12">
+          <div>
+            <h2 class="text-2xl font-bold mb-6">Send us a message</h2>
+            <form class="space-y-6">
+              <div>
+                <label for="name" class="block text-sm font-medium mb-2">Name</label>
+                <Input type="text" id="name" name="name" placeholder="Your name" required />
+              </div>
+              
+              <div>
+                <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                <Input type="email" id="email" name="email" placeholder="your@email.com" required />
+              </div>
+              
+              <div>
+                <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+                <Input type="text" id="subject" name="subject" placeholder="What is this about?" required />
+              </div>
+              
+              <div>
+                <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                <Textarea id="message" name="message" placeholder="Your message..." rows={6} required />
+              </div>
+              
+              <Button type="submit" size="lg" className="w-full">
+                Send Message
+              </Button>
+            </form>
+          </div>
+
+          <div class="space-y-8">
+            <div>
+              <h2 class="text-2xl font-bold mb-4">Other ways to reach us</h2>
+              <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold">Email</h3>
+                    <p class="text-muted-foreground">{SITE_CONFIG.email}</p>
+                    <p class="text-sm text-muted-foreground mt-1">For general inquiries and feedback</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-primary">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold">Twitter</h3>
+                    <p class="text-muted-foreground">@{SITE_CONFIG.social.twitter.replace('@', '')}</p>
+                    <p class="text-sm text-muted-foreground mt-1">Follow us for the latest updates</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-muted/50 rounded-xl p-6">
+              <h3 class="font-semibold mb-2">Press Inquiries</h3>
+              <p class="text-sm text-muted-foreground mb-4">
+                For press releases, partnership opportunities, or media requests, please contact us at the email above with "Press Inquiry" in the subject line.
+              </p>
+            </div>
+
+            <div class="bg-muted/50 rounded-xl p-6">
+              <h3 class="font-semibold mb-2">Product Submissions</h3>
+              <p class="text-sm text-muted-foreground">
+                If you're a manufacturer or PR representative interested in having your product considered for review, please reach out to us. While we can't review every product submitted, we appreciate being informed about new releases in our coverage areas.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

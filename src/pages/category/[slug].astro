@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+import ReviewCard from '@/components/review/ReviewCard.astro';
+import { CATEGORIES } from '@/utils/helpers';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const reviews = await getCollection('reviews');
+  
+  const categorySlugs = CATEGORIES.map(c => c.slug);
+  
+  return categorySlugs.map(slug => {
+    const categoryPosts = posts.filter(post => 
+      post.data.category.toLowerCase().replace(/\s+/g, '-') === slug
+    );
+    const categoryReviews = reviews.filter(review => 
+      review.data.category.toLowerCase().replace(/\s+/g, '-') === slug
+    );
+    
+    return {
+      params: { slug },
+      props: { 
+        categoryPosts: categoryPosts.sort((a, b) => 
+          b.data.publishDate.getTime() - a.data.publishDate.getTime()
+        ),
+        categoryReviews: categoryReviews.sort((a, b) => 
+          b.data.publishDate.getTime() - a.data.publishDate.getTime()
+        ),
+        categoryName: CATEGORIES.find(c => c.slug === slug)?.name || slug
+      },
+    };
+  });
+}
+
+const { categoryPosts, categoryReviews, categoryName } = Astro.props;
+---
+
+<BaseLayout
+  title={`${categoryName} - Reviews & Guides`}
+  description={`Expert reviews and buying guides for ${categoryName.toLowerCase()} products.`}
+>
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <header class="max-w-2xl mx-auto text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">{categoryName}</h1>
+        <p class="text-xl text-muted-foreground">
+          Expert reviews and buying guides
+        </p>
+      </header>
+
+      {categoryReviews.length > 0 && (
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold mb-6">Reviews</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categoryReviews.map(review => (
+              <ReviewCard review={review} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {categoryPosts.length > 0 && (
+        <div>
+          <h2 class="text-2xl font-bold mb-6">Articles & Guides</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {categoryPosts.map(post => (
+              <PostCard post={post} featured={true} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {categoryPosts.length === 0 && categoryReviews.length === 0 && (
+        <div class="text-center py-12">
+          <p class="text-muted-foreground">No content in this category yet.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+interface Props {
+  link: string;
+  productName: string;
+  brand: string;
+}
+
+const { link, productName, brand } = Astro.props;
+---
+
+<div class="bg-gradient-to-r from-primary/10 to-orange-500/10 rounded-xl border border-primary/20 p-6">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="text-center md:text-left">
+      <p class="text-sm text-muted-foreground mb-1">Ready to buy?</p>
+      <h3 class="text-xl font-semibold">Get the {productName}</h3>
+      <p class="text-sm text-muted-foreground">Check the best current price on {brand}'s official store</p>
+    </div>
+    <a
+      href={link}
+      target="_blank"
+      rel="nofollow sponsored"
+      class="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+    >
+      Check Best Price
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" x2="21" y1="14" y2="3"></line>
+      </svg>
+    </a>
+  </div>
+  <p class="text-xs text-muted-foreground text-center mt-4">
+    We may earn a commission from qualifying purchases. This doesn't affect our editorial independence.
+  </p>
+</div>
