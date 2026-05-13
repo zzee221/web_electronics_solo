@@ -1,4 +1,3 @@
----
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
@@ -20,7 +19,7 @@ export async function GET(context: APIContext) {
       pubDate: item.data.publishDate,
       description: item.data.description,
       link: item.collection === 'posts' ? `/blog/${item.slug}/` : `/review/${item.slug}/`,
-      categories: [item.data.category, ...item.data.tags].filter(Boolean),
+      categories: [item.data.category, ...(item.data.tags || [])].filter(Boolean),
       author: item.data.author,
     })),
     customData: '<language>en-us</language>',
