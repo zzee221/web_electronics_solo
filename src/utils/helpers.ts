@@ -52,8 +52,8 @@ export function getRatingBgColor(rating: number): string {
 export const SITE_CONFIG = {
   name: 'TechPick',
   description: 'Independent product reviews and buying guides for tech enthusiasts',
-  url: process.env.PUBLIC_SITE_URL || 'https://techpick.example.com',
-  email: 'editorial@techpick.example.com',
+  url: 'https://techpick.top/',
+  email: 'editorial@techpick.top',
   social: {
     twitter: '@techpickreviews',
   },
@@ -96,9 +96,21 @@ export const CATEGORIES = [
     description: 'Cables, adapters, mounts, and essential gadgets',
     icon: 'Cable',
   },
+  {
+    name: 'Drones',
+    slug: 'drones',
+    description: 'Camera drones, FPV quads, and aerial photography gear',
+    icon: 'Plane',
+  },
 ];
 
 export const AUTHORS = [
+  {
+    name: 'TechPick Editor',
+    role: 'Editorial Team',
+    bio: 'Experienced tech reviewers covering drones, cameras, smart home gear, and consumer electronics.',
+    image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+  },
   {
     name: 'James Mitchell',
     role: 'Senior Editor',
