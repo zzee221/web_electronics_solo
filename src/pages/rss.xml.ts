@@ -13,7 +13,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: 'TechPick - Independent Product Reviews',
     description: 'Thoroughly tested products, honest opinions, and expert buying guides.',
-    site: context.site ?? 'https://techpick.example.com',
+    site: context.site,
     items: allContent.map(item => ({
       title: item.data.title,
       pubDate: item.data.publishDate,

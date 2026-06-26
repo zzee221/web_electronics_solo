@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: process.env.PUBLIC_SITE_URL || 'https://techpick.example.com',
+  site: 'https://techpick.top/',
   integrations: [
     react(),
     mdx(),

@@ -18,9 +18,46 @@ export async function getStaticPaths() {
 const { review } = Astro.props;
 const { Content, headings } = await render(review);
 const { title, description, productName, productBrand, productImage, productImageAlt, category, affiliateLink, rating, verdict, pros, cons, scores, specs, author, publishDate, updatedDate } = review.data;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const reviewSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  itemReviewed: {
+    '@type': 'Product',
+    name: productName,
+    brand: {
+      '@type': 'Brand',
+      name: productBrand
+    },
+    image: productImage
+  },
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue: rating,
+    bestRating: 10
+  },
+  author: {
+    '@type': 'Person',
+    name: author
+  },
+  datePublished: publishDate.toISOString(),
+  dateModified: updatedDate?.toISOString() ?? publishDate.toISOString(),
+  reviewBody: description,
+  publisher: {
+    '@type': 'Organization',
+    name: 'TechPick',
+    url: Astro.site?.toString()
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalURL.toString()
+  }
+};
 ---
 
 <BaseLayout title={title} description={description} image={productImage} article={true}>
+  <script type="application/ld+json" set:html={JSON.stringify(reviewSchema)} />
   <article class="py-12">
     <div class="container mx-auto px-4">
       <header class="max-w-4xl mx-auto mb-12">
